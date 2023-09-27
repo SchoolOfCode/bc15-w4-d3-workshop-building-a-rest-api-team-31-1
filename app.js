@@ -29,3 +29,11 @@ app.get("/quotes", async function(req, res) {
   res.send(quotesJSON)
   });
 
+//when a GET request is received to /quotes/:id, with a particular ID provided in the url. Choose the appropriate helper function from quote.js to get your data.
+
+app.get("qoutes/:id", async function(req,res){
+
+ const { id } = req.params;
+
+ const qouteById 
+});
