@@ -50,20 +50,14 @@ app.get("/quotes/:id", async function(req,res){
 // request is received to `/quotes`. Choose the appropriate helper function from `quote.js` to create your data.
 
 app.post(	"/quotes" , async function (req,res){
- const newQuoteData = {
-  id:uuidv4(),
-  quoteText:"It\'s the possibility of having a dream come true that makes life interesting",
-  author:"Paulo cohelo",
+
+  const newQuoteData = {
+    id:uuidv4(),
+    quoteText: "It\'s the possibility of having a dream come true that makes life interesting",
+    author: "Paulo cohelo",
  };
-await addQuote(newQuoteData)
-res.send (newQuoteData);
-
+ 
+  await addQuote(newQuoteData);
+  res.send(newQuoteData)
 });
-// const newQuoteData = {
-//   id:uuidv4(),
-//   quoteText: "It\'s the possibility of having a dream come true that makes life interesting",
-//   author: "Paulo cohelo",
-// };
 
-// await addQuote(newQuoteData);
-// res.send(newQuoteData)
