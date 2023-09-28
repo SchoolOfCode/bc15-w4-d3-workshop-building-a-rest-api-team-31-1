@@ -61,3 +61,19 @@ app.post(	"/quotes" , async function (req,res){
   res.send(newQuoteData)
 });
 
+app.patch("/quotes/:id", async function (req, res) {
+
+  const quoteId = req.params.id;
+  const update = {
+    quoteText: "makes life interesting",
+    author: "Paulo cohelo",
+  };
+  const updateQuote = await editQuote(quoteId, update.quoteText,update.author);
+  if (update) {
+    res.status(200).json({ message: 'Quote updated successfully', quote: update });
+  } else {
+    res.status(404).json({ message: 'Quote not found' });
+  }
+
+
+})
