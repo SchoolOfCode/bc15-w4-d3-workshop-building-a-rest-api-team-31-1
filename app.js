@@ -1,6 +1,7 @@
 import express from "express";
 import{promises as fs} from "node:fs"
 import { v4 as uuidv4 } from "uuid";
+import morgan from "morgan";
 
 const app = express();
 const PORT = 4001;
@@ -15,6 +16,9 @@ import {
 
 app.use(express.json());// parses the body data and makes it available on req.body
 
+app.use(morgan('dev'));
+console.log();
+
 app.get("/", function (req, res) {
   res.send("Welcome to the inspirational quotes API");
 });
@@ -22,6 +26,7 @@ app.get("/", function (req, res) {
 app.listen(PORT, function () {
   console.log(`Server is now listening on http://localhost:${PORT}`);
 });
+
 
 
 //create a GET route handler for all quotes
@@ -75,7 +80,6 @@ if(!quoteText || !author){
   await addQuote(newQuoteData);
   res.json(newQuoteData);
 
-  
 
 // const quote = await addQuote(quoteText,author)
 // const response = {
