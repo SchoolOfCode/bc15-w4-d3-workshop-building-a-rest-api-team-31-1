@@ -13,7 +13,7 @@ import {
   deleteQuote,
 } from "./quote.js";
 
-app.use(express.json());
+app.use(express.json());// parses the body data and makes it available on req.body
 
 app.get("/", function (req, res) {
   res.send("Welcome to the inspirational quotes API");
@@ -26,42 +26,73 @@ app.listen(PORT, function () {
 
 //create a GET route handler for all quotes
 app.get("/quotes", async function(req, res) {
-  const quotesJSON = await fs.readFile("quotes.json", "utf-8");
-  res.send(quotesJSON)
+  const quotes  = await getQuotes()
+  const response = {
+       status: "sucess",
+       data:quotes,
+  }
+ return  res.status(201).json(quotes)
   });
 
 //Get quotes by id 
 
-app.get("/quotes/:id", async function(req,res){
- const id = req.params.id;
- console.log(id);
- const quote = await getQuoteByID(id); 
- 
- if (!quote) {
-   return res.status(404).json({ error: 'Quote not found' });
- }else{
+app.get("/quotes/:id", async function(req, res) {
+  const id = req.params.id;
 
-  res.json(quote)
- }
-});
+  
+    const quote = await getQuoteByID(id);
+    
+    if (!quote) {
+      return res.status(404).json({ error: 'Quote not found' });
+    }
+
+    const response = {
+      status: "success",
+      data: quote,
+    };
+
+    return res.status(200).json(response);
+  })
 
 
 //Write a request handler to return the correct response and perform the correct action when a `POST`
 // request is received to `/quotes`. Choose the appropriate helper function from `quote.js` to create your data.
 
 app.post(	"/quotes" , async function (req,res){
+//store the quote text and author from the request
+const {quoteText , author} = req.body
+// const quoteText = req.body.quoteText;
+// const author = req.body.author;
+if(!quoteText || !author){
+  return res.status(400).json({Error: "Quote text and author required"})
+}
 
   const newQuoteData = {
-    id:uuidv4(),
-    quoteText: "It\'s the possibility of having a dream come true that makes life interesting",
-    author: "Paulo cohelo",
- };
- 
+    id: uuidv4(),
+    quoteText,
+    author,
+  }
   await addQuote(newQuoteData);
-  res.send(newQuoteData)
+  res.json(newQuoteData);
+
+  
+
+const quote = await addQuote(quoteText,author)
+const response = {
+  status: "success",
+  data: quote,
+
+};
+
+return res.status(201).json(response);
+  
 });
 
+
+//
 app.patch("/quotes/:id", async function (req, res) {
+// return the newly created quote
+//create a response object
 
   const quoteId = req.params.id;
   const update = {
