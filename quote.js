@@ -4,10 +4,12 @@ import { v4 as uuidv4 } from "uuid";
 
 const filePath = path.resolve(process.cwd(), "quotes.json");
 
-export async function addQuote(quoteText, author = "Unknown") {
-  const quotesJSON = await fs.readFile(filePath, "utf-8");
+export async function addQuote(quoteData) {
+  const {quoteText,author} = quoteData;
+  
+  const quotesJSON = await fs.readFile("quotes.json", "utf-8");
   const quotes = JSON.parse(quotesJSON);
-
+ 
   const newQuote = {
     id: uuidv4(),
     quoteText,
@@ -15,19 +17,19 @@ export async function addQuote(quoteText, author = "Unknown") {
   };
 
   quotes.push(newQuote);
-  await fs.writeFile(filePath, JSON.stringify(quotes, null, 2), "utf-8");
+  await fs.writeFile("quotes.json", JSON.stringify(quotes, null, 2), "utf-8");
 
   return newQuote;
 }
 
 export async function getQuotes() {
-  const quotesJSON = await fs.readFile(filePath, "utf-8");
+  const quotesJSON = await fs.readFile("quotes.json", "utf-8");
   const quotes = JSON.parse(quotesJSON);
   return quotes;
 }
 
 export async function getQuoteByID(id) {
-  const quotesJSON = await fs.readFile(filePath, "utf-8");
+  const quotesJSON = await fs.readFile("quotes.json", "utf-8");
   const quotes = JSON.parse(quotesJSON);
 
   for (const quote of quotes) {
