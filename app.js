@@ -60,7 +60,7 @@ app.get("/quotes/:id", async function(req, res) {
 
 app.post(	"/quotes" , async function (req,res){
 //store the quote text and author from the request
-const {quoteText , author} = req.body
+const {quoteText, author} = req.body
 // const quoteText = req.body.quoteText;
 // const author = req.body.author;
 if(!quoteText || !author){
@@ -77,14 +77,14 @@ if(!quoteText || !author){
 
   
 
-const quote = await addQuote(quoteText,author)
-const response = {
-  status: "success",
-  data: quote,
+// const quote = await addQuote(quoteText,author)
+// const response = {
+//   status: "success",
+//   data: quote,
 
-};
+// };
 
-return res.status(201).json(response);
+// return res.status(201).json(response);
   
 });
 
