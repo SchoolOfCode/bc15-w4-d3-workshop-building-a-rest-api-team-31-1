@@ -77,3 +77,13 @@ app.patch("/quotes/:id", async function (req, res) {
 
 
 })
+
+app.delete("/quotes/:id", async function(req,res){
+  const id = req.params.id;
+  const deletedQuote = await getQuoteByID(id);
+  if(!deletedQuote){
+    return res.status(404).json({ error: 'Quote not found' });
+  }else{
+    await deleteQuote(id)
+    res.status(200).json({ message: 'Quote deleted successfully', quote: deletedQuote});
+  }});
